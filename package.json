@@ -1,0 +1,21 @@
+{
+  "name": "draw",
+  "version": "1.0.0",
+  "description": "This is ignite draw app",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "build-toshow-win-x64": "electron-packager ./ ignite_draw --version=1.4.6 --platfrom=win32 --arch=x64 --out=../build/toshow/win_x64 --icon=./toshow/logo.ico",
+    "build-toshow-win-x86": "electron-packager ./ ignite_draw --version=1.4.6 --platfrom=win32 --arch=ia32 --out=../build/toshow/win_x86 --icon=./toshow/logo.ico",
+    "build-gangtai-win-x64": "electron-packager ./ ignite_draw --version=1.4.6 --platfrom=win32 --arch=x64 --out=../build/gangtai/win_x64 --icon=./gangtai_logo.ico",
+    "build-gangtai-win-x86": "electron-packager ./ ignite_draw --version=1.4.6 --platfrom=win32 --arch=ia32 --out=../build/gangtai/win_x86 --icon=./gangtai_logo.ico"
+  },
+  "keywords": [
+    "ignite",
+    "draw",
+    "app"
+  ],
+  "author": "fun.zheng",
+  "license": "ISC"
+}
