@@ -101,6 +101,9 @@
 const { GetConfig } = require('./common.js');
 const { app, process, dialog } = require('electron').remote;
 var ClickedCount = 0;
+
+document.onselectstart = new Function('event.returnValue=false;');
+
 (function() {
 	const config = GetConfig();
 	var back = document.getElementById('back');
@@ -127,12 +130,10 @@ var ClickedCount = 0;
 		} else {
 			viewport.goBack();
 		}
+		event.preventDefault();
 	});
 
 	ok_btn.addEventListener('click', function(event) {
-		quit_dialog.style.left = '100%';
-		quit_code.value = '';
-		ClickedCount = 0;
 		if(quit_code.value == config.quitCode) {
 			if (process.platform !== 'darwin') {
 				app.quit();
@@ -142,6 +143,9 @@ var ClickedCount = 0;
 		} else {
 			alert("密码错误！");
 		}
+		quit_dialog.style.left = '100%';
+		quit_code.value = '';
+		ClickedCount = 0;
 	});
 
 	cancel_btn.addEventListener('click', function(event) {
