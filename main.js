@@ -6,7 +6,7 @@ const exec = require('child_process').exec
 let config = GetConfig();
 const http = require('http');
 
-const UpdateFolder = config.serverRoot + '/Public/tools/IgniteDeskApp/dist/';
+const UpdateFolder = config.serverRoot + '/Public/tools/IgniteDeskApp/dist/current/';
 
 
 app.on('ready', () => {
