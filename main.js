@@ -1,18 +1,17 @@
 const {app, BrowserWindow, dialog} = require('electron');
 const { GetConfig, DownloadFilePromise } = require('./common.js');
 const path = require('path');
-const co = require('co');
+const co = require('./node_modules/.4.6.0@co/index.js');
 const exec = require('child_process').exec
 let config = GetConfig();
 const http = require('http');
 
 const UpdateFolder = config.serverRoot + '/Public/tools/IgniteDeskApp/dist/current/';
 
-
 app.on('ready', () => {
 	let mainWindow = new BrowserWindow({width: 800, height: 600, fullscreen: true});
 	co(function *() {
-		const currentVersion = process.env.npm_package_version;
+		const currentVersion = app.getVersion();
 		const webPackage = JSON.parse(yield DownloadFilePromise(UpdateFolder + 'package.json'));
 		const webVersion = webPackage.version;
 		if(currentVersion != webVersion) {
