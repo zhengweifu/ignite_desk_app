@@ -15,6 +15,9 @@ exports = module.exports = {
 				response.pipe(file);
 				file.on('end', () => {
 					file.end();
+				});
+
+				file.on('finish', () => {
 					callback();
 				});
 			} else  {
