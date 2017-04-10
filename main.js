@@ -1,7 +1,7 @@
 const {app, BrowserWindow, dialog} = require('electron');
 const { GetConfig, DownloadFilePromise } = require('./common.js');
 const path = require('path');
-const co = require('./node_modules/.4.6.0@co/index.js');
+const co = require('./node_modules/co/index.js');
 const exec = require('child_process').exec
 let config = GetConfig();
 const http = require('http');
