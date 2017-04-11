@@ -17,6 +17,7 @@ app.on('ready', () => {
 			const id = dialog.showMessageBox(mainWindow, {
 				type: 'question',
 				title: '更新',
+				cancelId: 1,
 				message: '发现有新的版本可以更新，单击确定按钮更新，之后重启程序。',
 				buttons: ['确定', '取消']
 			});
