@@ -2,5 +2,6 @@
 	"mainPage": "http://www.ignjewelry.com/index.php/index-thirdlogin",
 	"quitCode": "ignite2017",
 	"serverRoot": "http://192.168.40.175/ignite",
-	"showDevTools": false
+	"showDevTools": false,
+	"checkUpdate": false
 }

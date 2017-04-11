@@ -34,9 +34,8 @@
 </div>
 
 <script type="text/javascript">
-	const { GetConfig } = require('./common.js');
 	(function() {
-		const config = GetConfig();
+		const config = parent.window.PGetConfig();
 		var onLineElement = document.getElementById("ign-online");
 		var offLineElement = document.getElementById("ign-offline");
 		var isOnline = false;

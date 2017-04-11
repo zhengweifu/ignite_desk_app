@@ -2,19 +2,18 @@ const {app, BrowserWindow, dialog} = require('electron');
 const { GetConfig, DownloadFilePromise } = require('./common.js');
 const path = require('path');
 const co = require('./node_modules/co/index.js');
-const exec = require('child_process').exec
 let config = GetConfig();
 const http = require('http');
 
 const UpdateFolder = config.serverRoot + '/Public/tools/IgniteDeskApp/dist/current/';
-
+let mainWindow;
 app.on('ready', () => {
-	let mainWindow = new BrowserWindow({width: 800, height: 600, fullscreen: true});
+	mainWindow = new BrowserWindow({width: 800, height: 600, fullscreen: true});
 	co(function *() {
 		const currentVersion = app.getVersion();
 		const webPackage = JSON.parse(yield DownloadFilePromise(UpdateFolder + 'package.json'));
 		const webVersion = webPackage.version;
-		if(currentVersion != webVersion) {
+		if(currentVersion != webVersion && config.checkUpdate) {
 			const id = dialog.showMessageBox(mainWindow, {
 				type: 'question',
 				title: '更新',
@@ -39,7 +38,7 @@ app.on('ready', () => {
 
 		mainWindow.loadURL('file://' + __dirname + '/index.html');
 		mainWindow.setMenu(null);
-		// mainWindow.webContents.openDevTools();
+		if(config.showDevTools) mainWindow.webContents.openDevTools();
 	});
 });
 

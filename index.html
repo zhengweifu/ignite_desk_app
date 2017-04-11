@@ -16,6 +16,9 @@
 			height: 100%;
 		}
 		#viewport {
+			position: absolute;
+			left: 0px;
+			top: 0px;
 			width: 100%;
 			height: 100%;
 		}
@@ -83,7 +86,14 @@
 	</style>
 </head>
 <body>
-<webview id="viewport" src="./template.html" nodeintegration></webview>
+<script>
+	const { GetConfig } = require('./common.js');
+	window.MConfig = GetConfig();
+	function PGetConfig() {
+		return MConfig;
+	}
+</script>
+<iframe id="viewport" src="./template.html" frameborder="0" scrolling="no" marginwidth="0" marginHeight="0" seamless></iframe>
 <img id='back' src="./back.png" alt="">
 <div id='quit-dialog-parent'>
 	<div id='quit-dialog-child'>
@@ -98,14 +108,13 @@
 	</div>
 </div>
 <script>
-const { GetConfig } = require('./common.js');
 const { app, process, dialog } = require('electron').remote;
 var ClickedCount = 0;
 
 document.onselectstart = new Function('event.returnValue=false;');
 
 (function() {
-	const config = GetConfig();
+	const config = MConfig;
 	var back = document.getElementById('back');
 	var viewport = document.getElementById('viewport');
 	var ok_btn = document.getElementById('quit-ok-btn');
@@ -113,22 +122,23 @@ document.onselectstart = new Function('event.returnValue=false;');
 	var quit_dialog = document.getElementById('quit-dialog-parent');
 	var quit_code = document.getElementById('quit-code');
 
-	viewport.addEventListener('dom-ready', function() {
-		if(config.showDevTools) viewport.openDevTools();
-	});
+	// viewport.addEventListener('dom-ready', function() {
+	// 	if(config.showDevTools) viewport.openDevTools();
+	// });
 
 	setInterval(function() {
 		ClickedCount = 0;
 	}, 2000);
 
 	back.addEventListener('click', function(event) {
-		if(viewport.getURL() == config.mainPage) {
+		let viewportHistory = viewport.contentWindow.history;
+		if(viewport.contentWindow.location.href == config.mainPage) {
 			ClickedCount += 1;
 			if(ClickedCount >= 5) {
 				quit_dialog.style.left = '0px';
 			}
 		} else {
-			viewport.goBack();
+			viewportHistory.back();
 		}
 		event.preventDefault();
 	});
