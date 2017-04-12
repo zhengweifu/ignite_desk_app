@@ -86,14 +86,7 @@
 	</style>
 </head>
 <body>
-<script>
-	const { GetConfig } = require('./common.js');
-	window.MConfig = GetConfig();
-	function PGetConfig() {
-		return MConfig;
-	}
-</script>
-<iframe id="viewport" src="./template.html" frameborder="0" scrolling="no" marginwidth="0" marginHeight="0" seamless></iframe>
+<iframe id="viewport" frameborder="0" scrolling="no" marginwidth="0" marginHeight="0" seamless></iframe>
 <img id='back' src="./back.png" alt="">
 <div id='quit-dialog-parent'>
 	<div id='quit-dialog-child'>
@@ -108,13 +101,14 @@
 	</div>
 </div>
 <script>
+const { GetConfig } = require('./common.js');
 const { app, process, dialog } = require('electron').remote;
 var ClickedCount = 0;
 
 document.onselectstart = new Function('event.returnValue=false;');
 
 (function() {
-	const config = MConfig;
+	const config = GetConfig();
 	var back = document.getElementById('back');
 	var viewport = document.getElementById('viewport');
 	var ok_btn = document.getElementById('quit-ok-btn');
@@ -122,9 +116,7 @@ document.onselectstart = new Function('event.returnValue=false;');
 	var quit_dialog = document.getElementById('quit-dialog-parent');
 	var quit_code = document.getElementById('quit-code');
 
-	// viewport.addEventListener('dom-ready', function() {
-	// 	if(config.showDevTools) viewport.openDevTools();
-	// });
+	viewport.src = config.mainPage; // Set iframe src
 
 	setInterval(function() {
 		ClickedCount = 0;

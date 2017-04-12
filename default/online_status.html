@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>检测网络</title>
+	<style type="text/css">
+		* {margin: 0; padding: 0;}
+		.parent {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0 , 0, 0, 0.5);
+			display: flex;
+			justify-content: center;
+			align-items:center;
+			opacity: 0;
+		}
+
+		.child {
+			border-radius: 5px;
+			padding: 10px;
+			font-size: 20px;
+			font-family: "Microsoft YaHei",arial,Georgia,Serif;
+		}
+	</style>
+</head>
+<body>
+<div class="parent" id="ign-online">
+	<p class="child" style="color: rgba(0, 255, 0, 0.8); border: 1px solid rgba(0, 255, 0, 0.8);">网络已连接，正在跳转...</p>
+</div>
+
+<div class="parent" id="ign-offline">
+	<p class="child" style="color: rgba(255, 0, 0, 0.8); border: 1px solid rgba(255, 0, 0, 0.8);">当前网络没有连接，请您检查！</p>
+</div>
+
+<script>
+(function() {
+	const { ipcRenderer } = require('electron');
+	var onLineElement = document.getElementById("ign-online");
+	var offLineElement = document.getElementById("ign-offline");
+	var isOnline = false;
+
+	function render() {
+		if(navigator.onLine) {
+            if(!isOnline) {
+                onLineElement.style.opacity = 1;
+				offLineElement.style.opacity = 0;
+                isOnline = true;
+            }
+        } else {
+            onLineElement.style.opacity = 0;
+			offLineElement.style.opacity = 1;
+            if(isOnline) {
+                isOnline = false;
+            }
+        }
+    }
+	function loop() {
+        requestAnimationFrame(loop);
+        render();
+        ipcRenderer.send('online-status-changed', isOnline);
+    }
+    window.addEventListener('load', loop, false);
+})();
+</script>
+</html>
